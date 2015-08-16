@@ -264,10 +264,22 @@ void Tensor::Deserialize ( std::istream& input ) {
   input.read ( ( char* ) &maps, sizeof ( uint64_t ) / sizeof ( char ) );
 
   Resize ( samples, width, height, maps );
-
+  
+#ifdef DATUM_IS_FLOAT
   if ( elements_ > 0 )
     input.read ( ( char* ) data_ptr_, ( elements_ * sizeof ( datum ) )
                  / sizeof ( char ) );
+#else
+  float* float_data_ptr = new float[elements_];
+  if ( elements_ > 0)
+    input.read ( ( char* ) float_data_ptr, ( elements_ * sizeof ( float ) )
+                 / sizeof ( char ) );
+    
+    for(unsigned int e=0; e < elements_; e++)
+      data_ptr_[e] = float_data_ptr[e];
+    
+  delete[] float_data_ptr;
+#endif
 }
 
 

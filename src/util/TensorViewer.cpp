@@ -43,9 +43,9 @@ void copyTV ( Tensor* tensor, GdkPixbuf* targetb, unsigned int amap, unsigned in
         guchar* target_row = &target[row_stride * y];
 
         for ( unsigned int x = 0; x < tensor->width(); x++ ) {
-          const datum value = std::max ( std::min ( factor * row[x],1.0f ),-1.0f );
+          const datum value = std::max ( std::min ( factor * row[x],(datum)1.0f ),(datum)-1.0f );
           target_row[ ( 3*x ) + cmap] =
-            UCHAR_FROM_DATUM ( ( ( value < 0 && cmap == 0 ) || ( value >= 0 && cmap == 1 ) ) ? value : 0 );
+            UCHAR_FROM_DATUM ( ( ( value < (datum)0 && cmap == 0 ) || ( value >=(datum) 0 && cmap == 1 ) ) ? value : (datum)0 );
         }
       }
     }

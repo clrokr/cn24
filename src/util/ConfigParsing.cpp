@@ -31,8 +31,10 @@ datum ParseDatum ( std::string line, std::string identifier ) {
     std::stringstream ss;
     ss << line.substr ( identifier.length() +1 );
     datum d;
-    ss >> d;
+    float fd;
+    ss >> fd;
 //    return std::strtof ( line.substr ( identifier.length() +1 ).c_str() ,nullptr);
+    d = (datum) fd;
     return d;
   } else {
     return 0;
@@ -141,7 +143,9 @@ void ParseDatumParamIfPossible ( std::string line, std::string identifier, datum
   std::stringstream ss;
   ss << size;
   datum d;
-  ss >> d;
+  float fd;
+  ss >> fd;
+  d = (datum) fd;
   
   k = d; //std::atof ( size.c_str() );
 }

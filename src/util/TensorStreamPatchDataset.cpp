@@ -229,12 +229,12 @@ bool TensorStreamPatchDataset::GetTrainingSample (Tensor& data_tensor, Tensor& l
 
 		// Copy helper tensor
 		if (data_[t].width() > 1)
-			*helper_tensor.data_ptr(0, 0, 0, sample) = ((datum)col) / ((datum)data_[t].width() - 1);
+			*helper_tensor.data_ptr(0, 0, 0, sample) = ((datum)col) / ((datum)data_[t].width() - (datum)1);
 		else
 			*helper_tensor.data_ptr(0, 0, 0, sample) = 0;
 
 		if (data_[t].height() > 1)
-			*helper_tensor.data_ptr(0, 0, 1, sample) = ((datum)row) / ((datum)data_[t].height() - 1);
+			*helper_tensor.data_ptr(0, 0, 1, sample) = ((datum)row) / ((datum)data_[t].height() - (datum)1);
 		else
 			*helper_tensor.data_ptr(0, 0, 1, sample) = 0;
 
@@ -290,12 +290,12 @@ bool TensorStreamPatchDataset::GetTestingSample (Tensor& data_tensor, Tensor& la
 
 		// Copy helper tensor
 		if (data_[t].width() > 1)
-			*helper_tensor.data_ptr(0, 0, 0, sample) = ((datum)col) / ((datum)data_[t].width() - 1);
+			*helper_tensor.data_ptr(0, 0, 0, sample) = ((datum)col) / ((datum)data_[t].width() - (datum)1);
 		else
 			*helper_tensor.data_ptr(0, 0, 0, sample) = 0;
 
 		if (data_[t].height() > 1)
-			*helper_tensor.data_ptr(0, 0, 1, sample) = ((datum)row) / ((datum)data_[t].height() - 1);
+			*helper_tensor.data_ptr(0, 0, 1, sample) = ((datum)row) / ((datum)data_[t].height() - (datum)1);
 		else
 			*helper_tensor.data_ptr(0, 0, 1, sample) = 0;
 
@@ -358,12 +358,12 @@ TensorStreamPatchDataset* TensorStreamPatchDataset::CreateFromConfiguration (std
 			if (classes != 0) {
 				for (int c = 0; c < classes; c++) {
 					std::string weight;
-					datum dweight;
+					double dweight;
 					std::getline(file, weight);
 					std::stringstream ss;
 					ss << weight;
 					ss >> dweight;
-					class_weights.push_back(dweight);
+					class_weights.push_back((datum)dweight);
 					LOGDEBUG << "Class " << c << " weight: " << dweight;
 				}
 			}

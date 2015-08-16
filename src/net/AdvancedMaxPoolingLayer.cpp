@@ -215,7 +215,7 @@ void AdvancedMaxPoolingLayer::BackPropagate() {
           datum sum = 0.0;
           for (unsigned int oy = oystart; oy < oyend; oy++) {
             for (unsigned int ox = oxstart; ox < oxend; ox++) {
-              if(*maximum_mask_.data_ptr_const(ox, oy, map, sample) == mask_index)
+              if(*maximum_mask_.data_ptr_const(ox, oy, map, sample) == (datum)mask_index)
                 sum += *output_->delta.data_ptr_const(ox, oy, map, sample);
             }
           }

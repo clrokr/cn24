@@ -94,8 +94,8 @@ int main (int argc, char* argv[]) {
   LOGINFO << "Using " << (patchwise_training ? "hybrid patchwise" : "fully convolutional") << " training";
 
   Conv::TrainerSettings settings = factory->optimal_settings();
-  settings.epoch_training_ratio = 1 * it_factor;
-  settings.testing_ratio = 1 * it_factor;
+  settings.epoch_training_ratio = (Conv::datum)1 * it_factor;
+  settings.testing_ratio = (Conv::datum)1 * it_factor;
 
   // Load dataset
   LOGINFO << "Loading dataset, this can take a long time depending on the size!" << std::flush;
@@ -144,7 +144,7 @@ int main (int argc, char* argv[]) {
 		input_node->is_input = true;
 		graph.AddNode(input_node);
   } else {
-    data_layer = new Conv::DatasetInputLayer (*dataset, BATCHSIZE, patchwise_training ? 1.0 : loss_sampling_p, 983923);
+    data_layer = new Conv::DatasetInputLayer (*dataset, BATCHSIZE, patchwise_training ? (Conv::datum)1.0 : loss_sampling_p, 983923);
 		input_node = new Conv::NetGraphNode(data_layer);
 		input_node->is_input = true;
 		graph.AddNode(input_node);

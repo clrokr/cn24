@@ -192,7 +192,7 @@ void DatasetInputLayer::FeedForward() {
 
       for (unsigned int y = 0; y < localized_error_output_->data.height(); y += block_size) {
         for (unsigned int x = 0; x < localized_error_output_->data.width(); x += block_size) {
-          if (dist_ (generator_) > loss_sampling_p_) {
+          if ((datum)(dist_ (generator_)) > loss_sampling_p_) {
             for (unsigned int iy = y; iy < y + block_size && iy < localized_error_output_->data.height(); iy++) {
               for (unsigned int ix = x; ix < x + block_size && ix < localized_error_output_->data.width(); ix++) {
                 *localized_error_output_->data.data_ptr (ix, iy, 0, sample) = 0;

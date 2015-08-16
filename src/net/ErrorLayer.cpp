@@ -162,7 +162,7 @@ datum ErrorLayer::CalculateLossFunction() {
 	  }
   }
 
-  return error / 2.0;
+  return (datum)(error / 2.0);
 }
 
 

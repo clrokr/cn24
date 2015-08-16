@@ -104,13 +104,14 @@ void Trainer::Test() {
 
   auto t_end = std::chrono::system_clock::now();
   std::chrono::duration<double> t_diff = t_end - t_begin;
+
   LOGDEBUG << "Testing, sps: " <<
-          (datum) (sample_count_ * iterations)
-          / (datum) t_diff.count();
+          (double) (sample_count_ * iterations)
+          / (double) t_diff.count();
 
   LOGDEBUG << "Testing, tps: " <<
-          1000000.0f * (datum) t_diff.count() /
-          (datum) (sample_count_ * iterations) << " us";
+          (double)1000000.0f * (double) t_diff.count() /
+          (double) (sample_count_ * iterations) << " us";
 
 	for (unsigned int n = 0; n < graph_.GetLossNodes().size(); n++) {
 		LossFunctionLayer* lossfunction_layer = dynamic_cast<LossFunctionLayer*>(graph_.GetLossNodes()[n]->layer);
@@ -218,19 +219,21 @@ void Trainer::Epoch() {
 
   auto t_end = std::chrono::system_clock::now();
   std::chrono::duration<double> t_diff = t_end - t_begin;
+
   LOGDEBUG << "Training, sps: " <<
-          (datum) (sample_count_ * settings_.sbatchsize
-                   * first_training_layer_->GetLossSamplingProbability() * iterations)
-          / (datum) t_diff.count();
+          (double) ((double)sample_count_ * (double)settings_.sbatchsize
+                   * (double)first_training_layer_->GetLossSamplingProbability() * (double)iterations)
+          / (double) t_diff.count();
 
   LOGDEBUG << "Training, tps: " <<
-          1000000.0f * (datum) t_diff.count() /
-          (datum) (sample_count_ * settings_.sbatchsize
-                   * first_training_layer_->GetLossSamplingProbability() * iterations) << " us";
+          (double)1000000.0f * (double) t_diff.count() /
+          (double) ((double)sample_count_ * (double)settings_.sbatchsize
+                   * (double)first_training_layer_->GetLossSamplingProbability() * (double)iterations) << " us";
                   
 #ifdef BUILD_OPENCL
-  LOGDEBUG << "Training, GB/s   up: " << ((datum)CLHelper::bytes_up)/(1073741824.0 * (datum)t_diff.count());
-  LOGDEBUG << "Training, GB/s down: " << ((datum)CLHelper::bytes_down)/(1073741824.0 * (datum)t_diff.count());
+  LOGDEBUG << "Training, GB/s   up: " << ((double)CLHelper::bytes_up)/(1073741824.0 * (double)t_diff.count());
+  LOGDEBUG << "Training, GB/s down: " << ((double)CLHelper::bytes_down)/(1073741824.0 * (double)t_diff.count());
+
   CLHelper::bytes_up = 0;
   CLHelper::bytes_down = 0;
 #endif
@@ -238,9 +241,15 @@ void Trainer::Epoch() {
   // Display training epoch_error
 	for (unsigned int n = 0; n < graph_.GetLossNodes().size(); n++) {
 		LossFunctionLayer* lossfunction_layer = dynamic_cast<LossFunctionLayer*>(graph_.GetLossNodes()[n]->layer);
+<<<<<<< HEAD
 		LOGINFO << "Training (Epoch " << epoch_ << ", node " << n << ") " << graph_.GetLossNodes()[n]->layer->GetLayerDescription() <<  " lps: " << loss_sums[n] / (datum)(iterations * sample_count_ * settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
 	}
 	LOGINFO << "Training (Epoch " << epoch_ << ") aggregate lps: " << aggregate_loss / (datum)(iterations * sample_count_ * settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
+=======
+		LOGDEBUG << "Training (Epoch " << epoch_ << ", node " << n << ") " << graph_.GetLossNodes()[n]->layer->GetLayerDescription() <<  " lps: " << loss_sums[n] / (datum)((datum)iterations * (datum)sample_count_ * (datum)settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
+	}
+	LOGDEBUG << "Training (Epoch " << epoch_ << ") aggregate lps: " << aggregate_loss / (datum)((datum)iterations * (datum)sample_count_ * (datum)settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
+>>>>>>> d06ebd1... Added fixed point datum for testing
 
 	for (unsigned int n = 0; n < graph_.GetStatNodes().size(); n++) {
 		StatLayer* stat_layer = dynamic_cast<StatLayer*>(graph_.GetStatNodes()[n]->layer);
@@ -277,7 +286,7 @@ void Trainer::ApplyGradients (datum lr) {
 
       for (unsigned int w = 0; w < param->data.elements(); w++) {
         const datum weight = param->data (w);
-        const datum l1_gradient = (weight > 0) - (weight < 0);
+        const datum l1_gradient = (weight > (datum)0) - (weight < (datum)0);
         const datum l2_gradient = weight;
         const datum w_gradient = (*accumulated_gradients_[dp]) [w];
 
@@ -310,11 +319,11 @@ void Trainer::ApplyGradients (datum lr) {
           case QUICKPROP:
           {
             const datum last_gradient = (*last_gradients_[dp]) (w);
-            const datum s = settings_.mu / (1.0 + settings_.mu);
+            const datum s = settings_.mu / ((datum)1.0 + settings_.mu);
             
             datum step = 0;
-            if(last_step > 0.001) {
-              if(delta > 0.0) {
+            if(last_step > (datum)0.001) {
+              if(delta > (datum)0.0) {
                 step += lr * settings_.eta * delta;
               }
               
@@ -324,8 +333,8 @@ void Trainer::ApplyGradients (datum lr) {
                 step += last_step * delta / (last_gradient - delta);
               }
               
-            } else if(last_step < -0.001) {
-              if(delta < 0.0) {
+            } else if(last_step < (datum)-0.001) {
+              if(delta < (datum)0.0) {
                 step += lr * settings_.eta * delta;
               }
               
@@ -338,11 +347,11 @@ void Trainer::ApplyGradients (datum lr) {
               step += lr * settings_.eta * delta;
             }
             
-            if(step > 1000 || step < -1000) {
-              if(step>1000)
-                step=1000;
+            if(step > (datum)1000 || step < (datum)-1000) {
+              if(step > (datum)1000)
+                step = (datum)1000;
               else
-                step=-1000;
+                step = (datum)-1000;
             }
             
             param->data[w] -= step;

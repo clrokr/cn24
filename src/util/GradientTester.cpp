@@ -45,14 +45,14 @@ void GradientTester::TestGradient ( NetGraph& graph ) {
 #endif
 	const datum old_param = param->data(e);
 	
-	param->data[e] = old_param + epsilon;
+	param->data[e] = old_param + (datum)epsilon;
 	graph.FeedForward();
 	const double plus_loss = graph.AggregateLoss();
 	
 #ifdef BUILD_OPENCL
 	param->data.MoveToCPU();
 #endif
-	param->data[e] = old_param - epsilon;
+	param->data[e] = old_param - (datum)epsilon;
 graph.FeedForward();
 	const double minus_loss = graph.AggregateLoss();
 	

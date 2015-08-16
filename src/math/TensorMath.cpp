@@ -79,7 +79,7 @@ void TensorMath::GEMM(const bool is_row_major, const bool transpose_A, const boo
           
         sum += a_value * b_value;
       }
-      if(beta == 0.0)
+      if(beta == (datum) 0.0)
         c_ptr[ldC * i + j] = alpha * sum;
       else
         c_ptr[ldC * i + j] = beta * c_ptr[ldC * i + j] + alpha * sum;
@@ -147,7 +147,7 @@ void TensorMath::GEMV(const bool is_row_major, const bool transpose_A, const int
       const datum x_value = x_ptr[j * incX];
       sum += x_value * a_value;
     }
-    if(beta == 0.0)
+    if(beta == (datum)0.0)
       y_ptr[i * incY] = alpha * sum;
     else 
       y_ptr[i * incY] = beta * y_ptr[i * incY] + alpha * sum;

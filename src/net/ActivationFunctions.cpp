@@ -123,7 +123,7 @@ void SigmoidLayer::BackPropagate () {
     // This may be slower for wide networks and large batches
     // because of cache limitations.
 
-    const datum input_delta = (datum) (output_delta * output_data * (1.0 - output_data));
+    const datum input_delta = (datum) (output_delta * output_data * ((datum)1.0 - output_data));
     input_->delta.data_ptr ()[element] = input_delta;
   }
 #endif
@@ -163,7 +163,7 @@ void TanhLayer::FeedForward () {
     const datum input_data = input_->data.data_ptr_const() [element];
 
     // Calculate hyperbolic tangent: tanh(x) = 1.0 - 2.0 / (e^(2*x) + 1)
-    const datum output_data = 1.0 - 2.0 / (exp (2.0 * input_data) + 1.0);
+    const datum output_data = (datum)1.0 - (datum)2.0 / ((datum)exp ((datum)2.0 * input_data) + (datum)1.0);
     output_->data.data_ptr() [element] = output_data;
   }
 #endif
@@ -211,7 +211,7 @@ void TanhLayer::BackPropagate () {
     // tanh(x) = output
     // see SigmoidLayer::BackPropagate for an explanation
 
-    const datum input_delta = (datum) (output_delta * (1.0 - output_data * output_data));
+    const datum input_delta = (datum) (output_delta * ((datum)1.0 - output_data * output_data));
     input_->delta.data_ptr ()[element] = input_delta;
   }
 #endif
@@ -223,7 +223,7 @@ void ReLULayer::FeedForward () {
     const datum input_data = input_->data.data_ptr_const ()[element];
 
     // max(0, x)
-    const datum output_data = input_data > 0 ? input_data : 0;
+    const datum output_data = input_data > (datum)0 ? input_data : (datum)0;
     output_->data.data_ptr ()[element] = output_data;
   }
 }
@@ -237,7 +237,7 @@ void ReLULayer::BackPropagate () {
     // There is more than one way to do this. max(0,x) is not differentiable
     // at x=0 so we have to make a choice. It doesn't affect the learning in
     // any meaningful way.
-    const datum input_delta = (input_data > 0 ? output_delta : 0);
+    const datum input_delta = (input_data > (datum)0 ? output_delta : (datum)0);
     input_->delta.data_ptr ()[element] = input_delta;
   }
 }
@@ -251,7 +251,7 @@ void SoftmaxLayer::FeedForward () {
     }
     for (std::size_t element = 0; element < input_->data.width () ; element++) {
       *output_->data.data_ptr(element,0,0,sample) =
-          (datum) exp (*input_->data.data_ptr (element,0,0,sample)) / sum;
+          (datum) exp (*input_->data.data_ptr (element,0,0,sample)) / (datum)sum;
     }
   }
 }

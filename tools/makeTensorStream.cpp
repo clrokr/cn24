@@ -146,7 +146,7 @@ int main ( int argc, char** argv ) {
           const Conv::datum class1_diff = std::sqrt ( ( lr - fr ) * ( lr - fr )
                                           + ( lg - fg ) * ( lg - fg )
                                           + ( lb - fb ) * ( lb - fb ) ) / std::sqrt ( 3.0 );
-          const Conv::datum val = 1.0 - 2.0 * class1_diff;
+          const Conv::datum val = (Conv::datum)1.0 - (Conv::datum)2.0 * class1_diff;
           *label_tensor.data_ptr ( x,y,0,0 ) = val;
         }
       }

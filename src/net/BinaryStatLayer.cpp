@@ -27,7 +27,7 @@ BinaryStatLayer::BinaryStatLayer ( const unsigned int thresholds,
   false_negatives_ = new datum[thresholds_];
 
   if ( thresholds_ == 1 ) {
-    threshold_values_[0] = ( min_t + max_t ) / 2.0;
+    threshold_values_[0] = ( min_t + max_t ) / (datum)2.0;
   } else {
     datum interval = ( max_t - min_t ) / ( datum ) ( thresholds_ - 1 );
 
@@ -108,7 +108,7 @@ void BinaryStatLayer::FeedForward() {
   for ( unsigned int t = 0; t < thresholds_; t++ ) {
     for ( std::size_t s = 0; s < first_->data.elements(); s++ ) {
       const bool sign = first_->data ( s ) > threshold_values_[t];
-      const bool expected_sign = second_->data ( s ) > 0; //threshold_values_[t];
+      const bool expected_sign = second_->data ( s ) > (datum)0; //threshold_values_[t];
       const datum weight = third_->data ( s );
 
       if ( sign && expected_sign )
@@ -149,11 +149,11 @@ void BinaryStatLayer::Print ( std::string prefix, bool training ) {
     datum recall = -1;
     datum f1 = -1;
 
-    if ( ( true_positives_[t] + false_positives_[t] ) > 0 )
+    if ( ( true_positives_[t] + false_positives_[t] ) > (datum)0 )
       precision = ( true_positives_[t] ) /
                   ( true_positives_[t] + false_positives_[t] );
 
-    if ( ( true_positives_[t] + false_negatives_[t] ) > 0 )
+    if ( ( true_positives_[t] + false_negatives_[t] ) > (datum)0 )
       recall = ( true_positives_[t] ) /
                ( true_positives_[t] + false_negatives_[t] );
 
@@ -164,8 +164,8 @@ void BinaryStatLayer::Print ( std::string prefix, bool training ) {
 
     LOGDEBUG << "Accuracy (" << threshold_values_[t] << "): " << acc;*/
 
-    if ( precision >= 0 && recall >= 0 ) {
-      f1 = 2 * precision * recall / ( precision + recall );
+    if ( precision >= (datum)0 && recall >= (datum)0 ) {
+      f1 = (datum)2 * precision * recall / ( precision + recall );
     }
 
     if ( f1 > fmax ) {
@@ -181,24 +181,24 @@ void BinaryStatLayer::Print ( std::string prefix, bool training ) {
   datum f1 = -1;
   datum acc = -1;
 
-  if ( ( true_positives_[tfmax] + false_positives_[tfmax] ) > 0 )
+  if ( ( true_positives_[tfmax] + false_positives_[tfmax] ) > (datum)0 )
     precision = ( true_positives_[tfmax] ) /
                 ( true_positives_[tfmax] + false_positives_[tfmax] );
 
-  if ( ( true_positives_[tfmax] + false_negatives_[tfmax] ) > 0 )
+  if ( ( true_positives_[tfmax] + false_negatives_[tfmax] ) > (datum)0 )
     recall = ( true_positives_[tfmax] ) /
              ( true_positives_[tfmax] + false_negatives_[tfmax] );
 
-  if ( ( false_positives_[tfmax] + true_negatives_[tfmax] ) > 0 )
+  if ( ( false_positives_[tfmax] + true_negatives_[tfmax] ) > (datum)0 )
     fpr = ( false_positives_[tfmax] ) /
           ( false_positives_[tfmax] + true_negatives_[tfmax] );
 
-  if ( ( true_positives_[tfmax] + false_negatives_[tfmax] ) > 0 )
+  if ( ( true_positives_[tfmax] + false_negatives_[tfmax] ) > (datum)0 )
     fnr = ( false_negatives_[tfmax] ) /
           ( true_positives_[tfmax] + false_negatives_[tfmax] );
 
-  if ( precision >= 0 && recall >= 0 )
-    f1 = 2 * precision * recall / ( precision + recall );
+  if ( precision >= (datum)0 && recall >= (datum)0 )
+    f1 = (datum)2 * precision * recall / ( precision + recall );
   
   acc = ( true_positives_[tfmax] + true_negatives_[tfmax] ) /
           ( true_positives_[tfmax] + true_negatives_[tfmax] +
@@ -206,18 +206,18 @@ void BinaryStatLayer::Print ( std::string prefix, bool training ) {
           );
 
   ( training ? LOGTRESULT : LOGRESULT )
-      << prefix << " F1 : " << f1 * 100.0 << "% (t=" << threshold_values_[tfmax]
+      << prefix << " F1 : " << f1 * (datum)100.0 << "% (t=" << threshold_values_[tfmax]
       << ")" << LOGRESULTEND;
   ( training ? LOGTRESULT : LOGRESULT )
-      << prefix << " ACC: " << acc * 100.0 << "%" << LOGRESULTEND;
+      << prefix << " ACC: " << acc * (datum)100.0 << "%" << LOGRESULTEND;
   ( training ? LOGTRESULT : LOGRESULT )
-      << prefix << " PRE: " << precision * 100.0 << "%" << LOGRESULTEND;
+      << prefix << " PRE: " << precision * (datum)100.0 << "%" << LOGRESULTEND;
   ( training ? LOGTRESULT : LOGRESULT )
-      << prefix << " REC: " << recall * 100.0 << "%" << LOGRESULTEND;
+      << prefix << " REC: " << recall * (datum)100.0 << "%" << LOGRESULTEND;
   ( training ? LOGTRESULT : LOGRESULT )
-      << prefix << " FPR: " << fpr * 100.0 << "%" << LOGRESULTEND;
+      << prefix << " FPR: " << fpr * (datum)100.0 << "%" << LOGRESULTEND;
   ( training ? LOGTRESULT : LOGRESULT )
-      << prefix << " FNR: " << fnr * 100.0 << "%" << LOGRESULTEND;
+      << prefix << " FNR: " << fnr * (datum)100.0 << "%" << LOGRESULTEND;
 
 
 }

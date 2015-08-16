@@ -172,8 +172,8 @@ bool ConvolutionLayer::Connect (const CombinedTensor* input,
 }
 
 void ConvolutionLayer::FeedForward() {
-  const datum p = net_->IsTesting() ? 0.0 : dropout_fraction_;
-  const datum w = net_->IsTesting() ? (1.0 - dropout_fraction_) : 1.0;
+  const datum p = net_->IsTesting() ? (datum)0.0 : dropout_fraction_;
+  const datum w = net_->IsTesting() ? ((datum)1.0 - dropout_fraction_) : (datum)1.0;
   
   im2col_ff_buffer.hint_ignore_content_ = true;
   output_->data.hint_ignore_content_ = true;
@@ -212,7 +212,7 @@ void ConvolutionLayer::FeedForward() {
 
   // Very simple dropout FF implementation
   // This could be optimized a _lot_
-  if(p == 0.0) {
+  if(p == (datum)0.0) {
     //dropout_mask_.Clear(1.0);
   } else {
     FATAL("Dropout is not yet TensorMath compatible");
@@ -308,10 +308,10 @@ void ConvolutionLayer::OnLayerConnect (const std::vector<Layer*> next_layers) {
 #ifdef BUILD_OPENCL
   weights_->data.MoveToCPU();
 #endif
-  std::uniform_real_distribution<datum> dist_weights (-range , range);
+  std::uniform_real_distribution<double> dist_weights (-range , range);
 
   for (std::size_t i = 0; i < weights_->data.elements(); i++) {
-    weights_->data[i] = dist_weights (rand_);
+    weights_->data[i] = (datum)dist_weights (rand_);
   }
 
   LOGDEBUG << "Updating weights: " << this_layer_gain << " -> "

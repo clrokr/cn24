@@ -93,7 +93,8 @@ void LocalResponseNormalizationLayer::FeedForward() {
             }
             
             (*region_sums_.data_ptr(x,y,map,sample)) = region_sum;
-            datum divisor = pow(1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
+            datum divisor = (datum)pow((datum)1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
+
             (*output_->data.data_ptr(x,y,map,sample)) = (*input_->data.data_ptr_const(x,y,map,sample)) / divisor;
           }
         }
@@ -111,7 +112,8 @@ void LocalResponseNormalizationLayer::FeedForward() {
             }
             
             (*region_sums_.data_ptr(x,y,map,sample)) = region_sum;
-            datum divisor = pow(1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
+            datum divisor = (datum)pow((datum)1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
+
             (*output_->data.data_ptr(x,y,map,sample)) = (*input_->data.data_ptr_const(x,y,map,sample)) / divisor;
           }
         }

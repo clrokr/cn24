@@ -224,8 +224,8 @@ bool TensorStreamDataset::GetTrainingSample (Tensor& data_tensor, Tensor& label_
 		// Write spatial prior data to helper tensor
 		for (unsigned int y = 0; y < data_[index].height(); y++) {
 			for (unsigned int x = 0; x < data_[index].width(); x++) {
-				*helper_tensor.data_ptr(x, y, 0, sample) = ((datum)x) / ((datum)data_[index].width() - 1);
-				*helper_tensor.data_ptr(x, y, 1, sample) = ((datum)y) / ((datum)data_[index].height() - 1);
+				*helper_tensor.data_ptr(x, y, 0, sample) = ((datum)x) / ((datum)data_[index].width() - (datum)1);
+				*helper_tensor.data_ptr(x, y, 1, sample) = ((datum)y) / ((datum)data_[index].height() - (datum)1);
 			}
 			for (unsigned int x = data_[index].width(); x < GetWidth(); x++) {
 				*helper_tensor.data_ptr(x, y, 0, sample) = 0;
@@ -267,8 +267,8 @@ bool TensorStreamDataset::GetTestingSample (Tensor& data_tensor, Tensor& label_t
 		// Write spatial prior data to helper tensor
 		for (unsigned int y = 0; y < data_[test_index].height(); y++) {
 			for (unsigned int x = 0; x < data_[test_index].width(); x++) {
-				*helper_tensor.data_ptr(x, y, 0, sample) = ((datum)x) / ((datum)data_[test_index].width() - 1);
-				*helper_tensor.data_ptr(x, y, 1, sample) = ((datum)y) / ((datum)data_[test_index].height() - 1);
+				*helper_tensor.data_ptr(x, y, 0, sample) = ((datum)x) / ((datum)data_[test_index].width() - (datum)1);
+				*helper_tensor.data_ptr(x, y, 1, sample) = ((datum)y) / ((datum)data_[test_index].height() - (datum)1);
 			}
 			for (unsigned int x = data_[test_index].width(); x < GetWidth(); x++) {
 				*helper_tensor.data_ptr(x, y, 0, sample) = 0;
@@ -348,12 +348,12 @@ TensorStreamDataset* TensorStreamDataset::CreateFromConfiguration (std::istream&
 			if (classes != 0) {
 				for (int c = 0; c < classes; c++) {
 					std::string weight;
-					datum dweight;
+					float dweight;
 					std::getline(file, weight);
 					std::stringstream ss;
 					ss << weight;
 					ss >> dweight;
-					class_weights.push_back(dweight);
+					class_weights.push_back((datum)dweight);
 					LOGDEBUG << "Class " << c << " weight: " << dweight;
 				}
 			}

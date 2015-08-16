@@ -97,7 +97,7 @@ public:
   inline unsigned int epoch() { return epoch_; }
 
   inline datum CalculateLR (unsigned int iteration) {
-    return settings_.learning_rate * pow (1.0 + settings_.gamma
+    return settings_.learning_rate * (datum)pow ((datum)1.0 + settings_.gamma
                                           * (datum) iteration,
                                           -settings_.exponent);
   }

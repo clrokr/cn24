@@ -94,7 +94,7 @@ private:
   // Random seed
   int seed_;
   std::mt19937 generator_;
-  std::uniform_real_distribution<datum> dist_;
+  std::uniform_real_distribution<double> dist_;
 
   // Array containing a random permutation of the training samples
   std::vector<unsigned int> perm_;
