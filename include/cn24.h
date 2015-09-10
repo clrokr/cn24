@@ -25,6 +25,8 @@
 #include "cn24/util/KITTIData.h"
 #include "cn24/util/Init.h"
 #include "cn24/util/GradientTester.h"
+#include "cn24/util/Fixed.h"
+#include "cn24/util/FloatDatum.h"
 
 #include "cn24/math/TensorMath.h"
 
