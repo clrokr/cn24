@@ -19,7 +19,7 @@ void TensorMath::GEMM(const bool is_row_major, const bool transpose_A, const boo
 #ifdef BUILD_CLBLAS
   ((Tensor&)A).MoveToGPU();
   ((Tensor&)B).MoveToGPU();
-  C.MoveToGPU(C.hint_ignore_content_ && beta == 0.0);
+  C.MoveToGPU(C.hint_ignore_content_ && beta == (datum)0.0);
   
   cl_event done_event = NULL;
   
@@ -43,7 +43,7 @@ void TensorMath::GEMM(const bool is_row_major, const bool transpose_A, const boo
 #ifdef BUILD_OPENCL
   ((Tensor&)A).MoveToCPU();
   ((Tensor&)B).MoveToCPU();
-  C.MoveToCPU(C.hint_ignore_content_ && beta == 0.0);
+  C.MoveToCPU(C.hint_ignore_content_ && beta == (datum)0.0);
 #endif 
   
 #ifdef BUILD_BLAS
@@ -95,7 +95,7 @@ void TensorMath::GEMV(const bool is_row_major, const bool transpose_A, const int
 #ifdef BUILD_CLBLAS
   ((Tensor&)A).MoveToGPU();
   ((Tensor&)X).MoveToGPU();
-  Y.MoveToGPU(Y.hint_ignore_content_ && beta == 0.0);
+  Y.MoveToGPU(Y.hint_ignore_content_ && beta == (datum)0.0);
   
   cl_event done_event = NULL;
   
@@ -118,7 +118,7 @@ void TensorMath::GEMV(const bool is_row_major, const bool transpose_A, const int
 #ifdef BUILD_OPENCL
   ((Tensor&)A).MoveToCPU();
   ((Tensor&)X).MoveToCPU();
-  Y.MoveToCPU(Y.hint_ignore_content_ && beta == 0.0);
+  Y.MoveToCPU(Y.hint_ignore_content_ && beta == (datum)0.0);
 #endif
   
 #ifdef BUILD_BLAS

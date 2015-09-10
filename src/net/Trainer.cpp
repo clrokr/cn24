@@ -241,15 +241,9 @@ void Trainer::Epoch() {
   // Display training epoch_error
 	for (unsigned int n = 0; n < graph_.GetLossNodes().size(); n++) {
 		LossFunctionLayer* lossfunction_layer = dynamic_cast<LossFunctionLayer*>(graph_.GetLossNodes()[n]->layer);
-<<<<<<< HEAD
-		LOGINFO << "Training (Epoch " << epoch_ << ", node " << n << ") " << graph_.GetLossNodes()[n]->layer->GetLayerDescription() <<  " lps: " << loss_sums[n] / (datum)(iterations * sample_count_ * settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
+		LOGINFO << "Training (Epoch " << epoch_ << ", node " << n << ") " << graph_.GetLossNodes()[n]->layer->GetLayerDescription() <<  " lps: " << loss_sums[n] / (datum)((datum)iterations * (datum)sample_count_ * (datum)settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
 	}
-	LOGINFO << "Training (Epoch " << epoch_ << ") aggregate lps: " << aggregate_loss / (datum)(iterations * sample_count_ * settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
-=======
-		LOGDEBUG << "Training (Epoch " << epoch_ << ", node " << n << ") " << graph_.GetLossNodes()[n]->layer->GetLayerDescription() <<  " lps: " << loss_sums[n] / (datum)((datum)iterations * (datum)sample_count_ * (datum)settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
-	}
-	LOGDEBUG << "Training (Epoch " << epoch_ << ") aggregate lps: " << aggregate_loss / (datum)((datum)iterations * (datum)sample_count_ * (datum)settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
->>>>>>> d06ebd1... Added fixed point datum for testing
+	LOGINFO << "Training (Epoch " << epoch_ << ") aggregate lps: " << aggregate_loss / (datum)((datum)iterations * (datum)sample_count_ * (datum)settings_.sbatchsize * first_training_layer_->GetLossSamplingProbability());
 
 	for (unsigned int n = 0; n < graph_.GetStatNodes().size(); n++) {
 		StatLayer* stat_layer = dynamic_cast<StatLayer*>(graph_.GetStatNodes()[n]->layer);

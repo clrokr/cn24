@@ -144,7 +144,7 @@ void LocalResponseNormalizationLayer::BackPropagate() {
               }
             }
             
-            datum divisor = pow(1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
+            datum divisor = pow((datum)1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
             datum divisor2 = divisor * divisor;
             const datum xi = *input_->data.data_ptr_const(x,y,map,sample);
             const datum dxi = *output_->delta.data_ptr_const(x,y,map,sample);
@@ -170,7 +170,7 @@ void LocalResponseNormalizationLayer::BackPropagate() {
               region_size++;
             }
             
-            datum divisor = pow(1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
+            datum divisor = pow((datum)1.0 + ((alpha_/((datum)region_size))*region_sum), beta_);
             datum divisor2 = divisor * divisor;
             const datum xi = *input_->data.data_ptr_const(x,y,map,sample);
             const datum dxi = *output_->delta.data_ptr_const(x,y,map,sample);
