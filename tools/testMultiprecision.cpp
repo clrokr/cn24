@@ -9,14 +9,12 @@
 
 #include <iostream>
 
-typedef Conv::FloatDatum<23> fld;
-
 int main(int argc, char** argv) {
   Conv::System::Init();
   LOGINFO << "Test.";
   
-  Conv::FloatDatum<25> z(3);
-  fld x, y = 3;
+  Conv::datum z(3);
+  Conv::datum x, y = 3;
   x = 5;
   y -= x * 2;
   y -= z;

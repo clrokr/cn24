@@ -50,8 +50,9 @@ Tensor::Tensor ( const Tensor& tensor, bool intentional ) {
   // Copy
   std::memcpy ( target_data, source_data, bytes_to_copy );
 
-  if ( !intentional )
+  if ( !intentional ) {
     LOGDEBUG << "Tensor copied! Is this intentional?";
+  }
 }
 
 Tensor::Tensor ( Tensor && tensor ) {
@@ -486,7 +487,11 @@ void Tensor::MoveToCPU ( bool no_copy ) {
 #endif
 
 std::size_t Tensor::Maximum ( std::size_t sample ) {
+#ifdef DATUM_IS_FLOAT
   datum max_y = std::numeric_limits<datum>::lowest();
+#else
+  datum max_y = -10000000.0;
+#endif
   std::size_t max_x = 0;
 
   for ( std::size_t x = 0; x < width_ * height_ * maps_; x++ ) {
@@ -518,7 +523,11 @@ std::size_t Tensor::AbsMaximum () {
 
 std::size_t Tensor::PixelMaximum ( std::size_t x, std::size_t y, std::size_t sample ) {
   unsigned int maxclass = 0;
+#ifdef DATUM_IS_FLOAT
   datum maxvalue = std::numeric_limits<datum>::lowest();
+#else
+  datum maxvalue = -10000000.0;
+#endif
 
   for ( unsigned int c = 0; c < maps_; c++ ) {
     const datum value = *data_ptr_const ( x,y,c,sample );
@@ -624,7 +633,11 @@ void Tensor::PrintStats() {
 	MoveToCPU();
 #endif
 	datum min = std::numeric_limits<datum>::max();
+#ifdef DATUM_IS_FLOAT
 	datum max = std::numeric_limits<datum>::lowest();
+#else
+  datum max = -10000000.0;
+#endif
 	datum sum = 0;
 	datum sum_of_sqares = 0;
 	datum variance = 0;

@@ -227,6 +227,8 @@ if(CN24_BUILD_MPFR)
   message(STATUS "Using mpfr: ${MPFR_INC}")
   message(STATUS "Using mpfr: ${MPFR_LIB}")
   set(CN24_LIBS ${CN24_LIBS} ${MPFR_LIB})
+
+  
 endif()
 
 set(CN24_BUILD_OPENMP OFF CACHE BOOL "Build CN24 with OpenMP support if possible")

@@ -245,7 +245,7 @@ void ReLULayer::BackPropagate () {
 void SoftmaxLayer::FeedForward () {
 #pragma omp parallel for default(shared)
   for (std::size_t sample = 0; sample < input_->data.samples (); sample++) {
-    float sum = 0.0f;
+    datum sum = 0.0;
     for(std::size_t element = 0; element < input_->data.width (); element++) {
       sum += exp (*input_->data.data_ptr (element,0,0,sample));
     }

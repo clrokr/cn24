@@ -127,7 +127,11 @@ void AdvancedMaxPoolingLayer::FeedForward() {
       for (unsigned int ox = 0; ox < output_width_; ox++) {
         for (unsigned int oy = 0; oy < output_height_; oy++) {
           // Find maximum in region
+#ifdef DATUM_IS_FLOAT
           datum maximum = std::numeric_limits<datum>::lowest();
+#else
+          datum maximum = -10000000.0;
+#endif
           unsigned int mix = 0;
           unsigned int miy = 0;
           for (unsigned int iy = oy * stride_height_;

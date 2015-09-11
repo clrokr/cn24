@@ -11,9 +11,13 @@
 #include <cstdint>
 #include <type_traits>
 
+#define MPFR_REAL_ENABLE_CONV_OPS
+#include "real.hpp"
 
 namespace Conv {
+typedef mpfr::real<16> FloatDatum;
 
+/*
 template <mpfr_prec_t MA>
 class FloatDatum {//: boost::operators<FloatDatum<I,F> >, boost::shiftable<FloatDatum<I,F> > {
 
@@ -68,6 +72,10 @@ public:
     return lhs;
   }
   
+  // Comparison operators
+  friend bool operator==(const FloatDatum& lhs, const FloatDatum& rhs) {
+    return mpfr_cmp(lhs.data_, rhs.data_);
+  }
   // Conversion operators
 
 private:
@@ -76,6 +84,7 @@ private:
 
 
 };
+*/
 }
 
 #endif

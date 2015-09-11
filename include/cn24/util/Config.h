@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <cstdint>
 
-#include "Fixed.h"
+#include "FloatDatum.h"
 
 namespace Conv {
   
@@ -26,7 +26,7 @@ namespace Conv {
  * templates. Templates do not allow for move constructors and
  * are evil.
  */
-typedef numeric::Fixed<24,8> datum;
+typedef FloatDatum datum;
 //define DATUM_IS_FLOAT
 
 typedef int32_t dint;
