@@ -6,6 +6,9 @@ Contributors from the Computer Vision Group of the Friedrich Schiller University
 Contributors from GitHub:
  lolz0r (RGB regression)
 
+real.hpp (C++ MPFR implementation) (GPL):
+  Christian Schneider
+
 FindSQLite3.CMake (New BSD License):
  Andreas Schneider
 
